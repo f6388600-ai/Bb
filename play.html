@@ -1,0 +1,16 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Player — Hasu TV</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#050609;color:#fff;font-family:system-ui,Arial}.page{max-width:1050px;margin:auto;padding:14px}.top{display:flex;align-items:center;gap:12px;margin-bottom:15px}.back{border:1px solid #292b34;background:#111217;color:#fff;border-radius:12px;padding:10px 14px;cursor:pointer}.brand{font-weight:900}.box{background:#0c0d12;border:1px solid #292b34;border-radius:22px;padding:12px}.video{background:#000;border-radius:15px;overflow:hidden;aspect-ratio:16/9}.video video{width:100%;height:100%;display:block}.info{padding:17px 5px}.title{font-size:26px;font-weight:900}.tags span{display:inline-block;background:#191a21;color:#aaa;border:1px solid #292b34;border-radius:8px;padding:6px 9px;margin:8px 5px 0 0;font-size:11px}.status{color:#8e919c;font-size:13px;margin-top:10px}.hint{color:#666;font-size:12px;margin-top:8px}
+</style></head><body><div class="page"><div class="top"><button class="back" onclick="history.back()">← Back</button><div class="brand">HASU TV PLAYER</div></div>
+<div class="box"><div class="video"><video id="v" controls playsinline autoplay></video></div><div class="info"><div class="title" id="title">Loading...</div><div class="tags" id="tags"></div><div class="status" id="status">Starting player...</div><div class="hint">Direct HLS is attempted first. If the browser cannot load it, the Vercel proxy fallback is attempted.</div></div></div></div>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
+<script>
+let hls=null, triedProxy=false;const $=x=>document.getElementById(x),id=new URLSearchParams(location.search).get("id");
+const esc=s=>String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+async function init(){let a=await (await fetch("./channels.json")).json(),c=a.find(x=>x.id===id)||a[0];$("title").textContent=c.name;$("tags").innerHTML=[c.country,c.language,c.category,c.quality].map(x=>`<span>${esc(x)}</span>`).join("");start(c.stream)}
+function start(url,proxy=false){$("status").textContent=proxy?"Trying Vercel proxy...":"Trying direct stream...";if(hls){hls.destroy();hls=null}$("v").pause();$("v").removeAttribute("src");$("v").load();
+let src=proxy?"/api/proxy?url="+encodeURIComponent(url):url;
+if($("v").canPlayType("application/vnd.apple.mpegurl")){$("v").src=src;$("status").textContent=proxy?"Proxy HLS ready":"Direct HLS ready";$("v").play().catch(()=>{});return}
+if(window.Hls&&Hls.isSupported()){hls=new Hls({enableWorker:true,lowLatencyMode:true,maxBufferLength:8});hls.loadSource(src);hls.attachMedia($("v"));hls.on(Hls.Events.MANIFEST_PARSED,()=>{$("status").textContent=proxy?"Proxy playback ready":"Direct playback ready";$("v").play().catch(()=>{})});hls.on(Hls.Events.ERROR,(e,d)=>{if(d.fatal&&!triedProxy&&!proxy){triedProxy=true;start(url,true)}else if(d.fatal)$("status").textContent="Playback failed. The stream may be offline, blocked, or incompatible."})}else{$("status").textContent="This browser does not support HLS."}}
+init();
+</script></body></html>
