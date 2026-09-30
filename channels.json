@@ -53,7 +53,7 @@
     "id": "madani",
     "name": "Madani Channel Bangla",
     "logo": "http://livetv.akr4m.com:8080/bdtv/restrem/27.m3u8",
-    "stream": "",
+    "stream": "http://livetv.akr4m.com:8080/bdtv/restrem/27.m3u8",
     "country": "Bangladesh",
     "language": "Bangla",
     "category": "Religious",
