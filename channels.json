@@ -1,0 +1,62 @@
+[
+  {
+    "id": "demo",
+    "name": "Demo Live TV",
+    "logo": "https://dummyimage.com/600x360/14151d/ffffff&text=LIVE+TV",
+    "stream": "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8",
+    "country": "Global",
+    "language": "English",
+    "category": "Entertainment",
+    "quality": "720p"
+  },
+  {
+    "id": "bangla-news",
+    "name": "Bangla News",
+    "logo": "https://dummyimage.com/600x360/14151d/ffffff&text=NEWS",
+    "stream": "",
+    "country": "Bangladesh",
+    "language": "Bangla",
+    "category": "News",
+    "quality": "1080p"
+  },
+  {
+    "id": "sports-live",
+    "name": "Sports Live",
+    "logo": "https://dummyimage.com/600x360/14151d/ffffff&text=SPORTS",
+    "stream": "",
+    "country": "Global",
+    "language": "English",
+    "category": "Sports",
+    "quality": "720p"
+  },
+  {
+    "id": "bangla-ent",
+    "name": "Bangla Entertainment",
+    "logo": "https://dummyimage.com/600x360/14151d/ffffff&text=BANGLA",
+    "stream": "",
+    "country": "Bangladesh",
+    "language": "Bangla",
+    "category": "Entertainment",
+    "quality": "1080p"
+  },
+  {
+    "id": "peace-bangla",
+    "name": "Peace TV Bangla",
+    "logo": "https://dummyimage.com/600x360/14151d/ffffff&text=PEACE+TV",
+    "stream": "",
+    "country": "Bangladesh",
+    "language": "Bangla",
+    "category": "Religious",
+    "quality": "1080p"
+  },
+  {
+    "id": "madani",
+    "name": "Madani Channel Bangla",
+    "logo": "https://dummyimage.com/600x360/14151d/ffffff&text=MADANI",
+    "stream": "",
+    "country": "Bangladesh",
+    "language": "Bangla",
+    "category": "Religious",
+    "quality": "1080p"
+  }
+]

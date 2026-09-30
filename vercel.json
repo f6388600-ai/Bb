@@ -1,7 +1,1 @@
-{
-  "rewrites": [
-    { "source": "/home", "destination": "/index.html" },
-    { "source": "/channels", "destination": "/index.html" },
-    { "source": "/play", "destination": "/index.html" }
-  ]
-}
+{"version":2,"functions":{"api/proxy.js":{"maxDuration":30}}}
