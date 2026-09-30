@@ -9,9 +9,6 @@ window.DEFAULT_CHANNELS = [
     type: "hls"
   }
 
-  /*
-  Example:
-
   ,
   {
     id: "example-news",
@@ -51,6 +48,5 @@ window.DEFAULT_CHANNELS = [
     url: "https://www.youtube.com/watch?v=VIDEO_ID",
     type: "embed"
   }
-  */
-
+  
 ];
