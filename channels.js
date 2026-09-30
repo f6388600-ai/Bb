@@ -48,6 +48,5 @@ window.DEFAULT_CHANNELS = [
     url: "https://www.youtube.com/watch?v=VIDEO_ID",
     type: "embed"
   }
-  */
 
 ];
