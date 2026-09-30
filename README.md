@@ -1,19 +1,19 @@
-# StreamHub TV — Vercel + Android TV
+# StreamHub IPTV — Vercel Ready
 
 ## Deploy
-Import this folder into Vercel. No build command is required.
+1. Upload this folder to GitHub.
+2. Import the repository into Vercel.
+3. Framework Preset: Other.
+4. Build Command: leave empty.
+5. Output Directory: leave empty.
+6. Deploy.
 
-- Framework: Other
-- Build Command: empty
-- Output Directory: empty
+The project uses `/home`, `/channels`, and `/play?id=...` routes. `vercel.json` rewrites those routes to the SPA entry point.
 
-## Pages
-- /home
-- /channels
-- /play?id=CHANNEL_ID
+## HTTPS HLS proxy
+`api/proxy.js` proxies only `livetv.akr4m.com`. It rewrites HLS playlists, including relative segment/key/map URLs, back through the HTTPS proxy.
 
-## Android TV
-The UI uses large focusable cards, horizontal shelves and D-pad left/right/up/down navigation. Press OK/Enter on a focused channel to open the Play page.
+To add another upstream, add its hostname to `ALLOWED_HOSTS` in `api/proxy.js`.
 
-## HTTP HLS
-The included Vercel Edge proxy only permits `livetv.akr4m.com` and rewrites HLS playlist URLs so an HTTP source can be consumed from the HTTPS site.
+## Important
+The proxy does not defeat DRM, authentication, expired tokens, geo-blocking, or an offline upstream. It only solves browser mixed-content/CORS-style delivery when the upstream is reachable by the Vercel function.
