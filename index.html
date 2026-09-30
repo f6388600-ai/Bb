@@ -41,7 +41,8 @@
   <div class="hero-art"><div class="glow"></div><div class="screen-card"><div class="screen-top"><span></span><span></span><span></span><em>LIVE</em></div><div class="screen-play">▶</div><div class="screen-lines"><i></i><i></i><i></i></div></div><div class="float-card fc-one">◉ <b>HD</b><small>Quality</small></div><div class="float-card fc-two">⚡ <b>Fast</b><small>Playback</small></div></div>
 </section>
 <section class="content">
-  <div class="section-head"><div><div class="eyebrow">FEATURED</div><h2>Live channels</h2></div><div class="result-count" id="homeCount">0 channels</div></div>
+  <div class="section-head"><div><div class="eyebrow">FEATURED</div><h2>Live channels</h2></div><div class="result-count" id="homeCount">0 shown</div></div>
+  <div class="category-row home-category-row" id="homeCategories"></div>
   <div id="homeGrid" class="channel-grid" style="margin-top:24px"></div>
 </section>
 </main>
@@ -63,9 +64,9 @@
       <div id="loadingOverlay" class="loading-overlay"><div class="loader"></div><strong>Connecting to stream</strong><span>Please wait...</span></div>
       <video id="videoPlayer" controls playsinline preload="metadata" crossorigin="anonymous"></video>
       <iframe id="embedPlayer" title="Embedded player" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>
-      <div id="errorOverlay" class="error-overlay hidden"><div class="error-icon">!</div><h3>Stream unavailable</h3><p id="errorText">This stream could not be played.</p><div class="error-actions"><button id="retryBtn" class="primary-btn small">Try again</button><button id="openStreamBtn" class="ghost-btn small">Open link</button></div></div>
+      <div id="errorOverlay" class="error-overlay hidden"><div class="error-icon">!</div><h3>Stream unavailable</h3><p id="errorText">This stream could not be played.</p><div class="error-actions"><button id="retryBtn" class="primary-btn small">Try again</button></div></div>
     </div>
-    <div class="player-foot"><div class="now-info"><span id="playerCategory">—</span><span>•</span><span id="playerType">AUTO</span></div><button id="copyStreamBtn" class="compact-btn">Copy stream</button></div>
+    <div class="player-foot"><div class="now-info"><span id="playerCategory">—</span><span>•</span><span id="playerType">AUTO</span></div></div>
   </div>
 </section>
 </main>

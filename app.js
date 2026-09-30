@@ -3,7 +3,7 @@
   const builtin = [
     { id:"bd-tv-27", name:"BD TV", category:"Bangla", logo:"https://i.imgur.com/WpMA9kC.png", url:"http://livetv.akr4m.com:8080/bdtv/restrem/27.m3u8", type:"hls" }
   ];
-  const state = { channels: [], filtered: [], category:"All", search:"", sort:"default", current:null, hls:null, dash:null, theme:localStorage.getItem("iptv_theme")||"dark" };
+  const state = { channels: [], filtered: [], category:"All", homeCategory:"All", search:"", sort:"default", current:null, hls:null, dash:null, theme:localStorage.getItem("iptv_theme")||"dark" };
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => [...document.querySelectorAll(s)];
   const esc = (v) => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));
@@ -20,7 +20,15 @@
   function renderRoute(){ const p=location.pathname.replace(/\/+$/,'')||"/home"; $$(".page").forEach(x=>x.classList.add("hidden")); if(p==="/channels"){ $("#channelsPage").classList.remove("hidden"); renderCategories(); applyFilters(); } else if(p==="/play"){ $("#playPage").classList.remove("hidden"); openById(getId()); } else { $("#homePage").classList.remove("hidden"); renderHome(); } window.scrollTo({top:0,behavior:"instant"}); }
   function card(c){ return `<article class="channel-card" data-id="${esc(c.id)}"><div class="logo-box">${c.logo?`<img src="${esc(c.logo)}" alt="${esc(c.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">`:''}<span class="logo-fallback" style="${c.logo?'display:none':''}">${esc(initials(c.name))}</span><span class="live-badge">LIVE</span></div><div class="card-body"><div class="channel-name">${esc(c.name)}</div><div class="channel-meta"><span>${esc(c.category)}</span><span class="play-mini">▶</span></div></div></article>`; }
   function bindCards(root){ $$(root+" .channel-card").forEach(el=>el.onclick=()=>navigate(`/play?id=${encodeURIComponent(el.dataset.id)}`)); }
-  function renderHome(){ const list=state.channels.slice(0,12); $("#homeGrid").innerHTML=list.length?list.map(card).join(""):empty(); $("#homeCount").textContent=`${state.channels.length} channel${state.channels.length===1?'':'s'}`; bindCards("#homeGrid"); }
+  function renderHome(){
+    const cats=["All",...new Set(state.channels.map(c=>c.category).filter(Boolean))];
+    $("#homeCategories").innerHTML=cats.map(c=>`<button class="category-btn ${state.homeCategory===c?'active':''}" data-home-category="${esc(c)}">${esc(c)}</button>`).join("");
+    $$('[data-home-category]').forEach(b=>b.onclick=()=>{ state.homeCategory=b.dataset.homeCategory; renderHome(); });
+    const list=state.channels.filter(c=>state.homeCategory==="All"||c.category===state.homeCategory).slice(0,12);
+    $("#homeGrid").innerHTML=list.length?list.map(card).join(""):empty();
+    $("#homeCount").textContent=`${list.length} shown • ${state.channels.length} total`;
+    bindCards("#homeGrid");
+  }
   function empty(){return `<div class="empty-state"><div class="empty-icon">📺</div><h3>No channels found</h3><p>Try another search or category.</p></div>`;}
   function renderCategories(){ const cats=["All",...new Set(state.channels.map(c=>c.category).filter(Boolean))]; $("#categoryRow").innerHTML=cats.map(c=>`<button class="category-btn ${state.category===c?'active':''}" data-category="${esc(c)}">${esc(c)}</button>`).join(""); $$("#categoryRow .category-btn").forEach(b=>b.onclick=()=>{state.category=b.dataset.category;renderCategories();applyFilters();}); }
   function applyFilters(){ let r=state.channels.filter(c=>(state.category==="All"||c.category===state.category)&&(!state.search||`${c.name} ${c.category}`.toLowerCase().includes(state.search.toLowerCase()))); if(state.sort==="az")r.sort((a,b)=>a.name.localeCompare(b.name)); if(state.sort==="category")r.sort((a,b)=>a.category.localeCompare(b.category)||a.name.localeCompare(b.name)); state.filtered=r; $("#channelGrid").innerHTML=r.length?r.map(card).join(""):empty(); $("#resultCount").textContent=`${r.length} channel${r.length===1?'':'s'}`; bindCards("#channelGrid"); }
@@ -35,15 +43,21 @@
     $$("[data-sort]").forEach(b=>b.onclick=()=>{$$("[data-sort]").forEach(x=>x.classList.remove("active"));b.classList.add("active");state.sort=b.dataset.sort;applyFilters();});
     window.addEventListener("popstate",renderRoute);
     $("#retryBtn").onclick=()=>state.current&&openById(state.current.id);
-    $("#openStreamBtn").onclick=()=>state.current&&window.open(state.current.url,"_blank","noopener,noreferrer");
-    $("#copyStreamBtn").onclick=async()=>{if(!state.current)return;try{await navigator.clipboard.writeText(state.current.url);$("#copyStreamBtn").textContent="Copied ✓";setTimeout(()=>$("#copyStreamBtn").textContent="Copy stream",1200)}catch{alert(state.current.url)}};
     state.channels=allChannels(); renderRoute();
   }
   function cleanup(){ if(state.hls){try{state.hls.destroy()}catch{} state.hls=null;} if(state.dash){try{state.dash.reset()}catch{} state.dash=null;} const v=$("#videoPlayer"); if(v){v.pause();v.removeAttribute("src");v.load();} const f=$("#embedPlayer"); if(f)f.src="about:blank"; }
   function loading(on,msg="Connecting to stream..."){ const x=$("#loadingOverlay"); x.classList.toggle("hidden",!on); const s=x.querySelector("span");if(s)s.textContent=msg; }
   function error(msg){loading(false);$("#errorText").textContent=msg;$("#errorOverlay").classList.remove("hidden");}
   function openById(id){ const c=state.channels.find(x=>x.id===id)||state.channels[0]; if(!c){$("#playTitle").textContent="Channel not found";return;} state.current=c; $("#playTitle").textContent=c.name;$("#playMeta").textContent=`${c.category} • ${detectType(c).toUpperCase()}`;$("#playerCategory").textContent=c.category;$("#playerType").textContent=detectType(c).toUpperCase();$("#errorOverlay").classList.add("hidden");cleanup();loading(true); const t=detectType(c); if(t==="hls")return playHls(c);if(t==="dash")return playDash(c);if(t==="embed")return playEmbed(c);return playVideo(c); }
-  function playHls(c){ const v=$("#videoPlayer");v.style.display="block";$("#embedPlayer").style.display="none";const url=playableUrl(c); if(v.canPlayType("application/vnd.apple.mpegurl")){v.src=url;v.onloadedmetadata=()=>{loading(false);v.play().catch(()=>{})};v.onerror=()=>error("HLS stream could not be played. Check whether the source is online.");return;} if(!window.Hls?.isSupported()){return error("This browser does not support HLS playback.");}const h=new Hls({enableWorker:true,lowLatencyMode:true,backBufferLength:30,maxBufferLength:30,liveSyncDurationCount:3});state.hls=h;h.loadSource(url);h.attachMedia(v);h.on(Hls.Events.MANIFEST_PARSED,()=>{loading(false);v.play().catch(()=>{})});h.on(Hls.Events.ERROR,(_,d)=>{if(!d.fatal)return;if(d.type===Hls.ErrorTypes.NETWORK_ERROR){try{h.startLoad();return}catch{}}if(d.type===Hls.ErrorTypes.MEDIA_ERROR){try{h.recoverMediaError();return}catch{}}error("HLS playback failed. The stream may be offline or unavailable.");});}
+  function playHls(c){
+    const v=$("#videoPlayer");v.style.display="block";$("#embedPlayer").style.display="none";const url=playableUrl(c);
+    if(v.canPlayType("application/vnd.apple.mpegurl")){v.src=url;v.onloadedmetadata=()=>{loading(false);v.play().catch(()=>{})};v.onerror=()=>error("HLS stream could not be played. Check whether the source is online.");return;}
+    if(!window.Hls?.isSupported()) return error("This browser does not support HLS playback.");
+    const h=new Hls({enableWorker:true,lowLatencyMode:true,backBufferLength:10,maxBufferLength:15,maxMaxBufferLength:30,liveSyncDurationCount:2,maxLiveSyncPlaybackRate:1.2,startLevel:-1,capLevelToPlayerSize:true,manifestLoadingMaxRetry:2,fragLoadingMaxRetry:2});
+    state.hls=h;h.loadSource(url);h.attachMedia(v);
+    h.on(Hls.Events.MANIFEST_PARSED,()=>{loading(false);v.play().catch(()=>{})});
+    h.on(Hls.Events.ERROR,(_,d)=>{if(!d.fatal)return;if(d.type===Hls.ErrorTypes.NETWORK_ERROR){try{h.startLoad(-1);return}catch{}}if(d.type===Hls.ErrorTypes.MEDIA_ERROR){try{h.recoverMediaError();return}catch{}}error("HLS playback failed. The stream may be offline or unavailable.");});
+  }
   function playVideo(c){const v=$("#videoPlayer");v.style.display="block";$("#embedPlayer").style.display="none";v.src=playableUrl(c);v.onloadedmetadata=()=>{loading(false);v.play().catch(()=>{})};v.onerror=()=>error("This video cannot be played by the browser.");}
   function playDash(c){const v=$("#videoPlayer");v.style.display="block";$("#embedPlayer").style.display="none";if(!window.dashjs)return error("DASH player library is unavailable.");const p=dashjs.MediaPlayer().create();state.dash=p;p.initialize(v,playableUrl(c),true);p.on(dashjs.MediaPlayer.events.STREAM_INITIALIZED,()=>loading(false));p.on(dashjs.MediaPlayer.events.ERROR,()=>error("DASH playback failed."));}
   function yt(u){try{const x=new URL(u);if(x.hostname.includes("youtu.be"))return x.pathname.slice(1);if(x.pathname==="/watch")return x.searchParams.get("v");const m=x.pathname.match(/\/(?:embed|shorts|live)\/([^/]+)/);return m?.[1]||null}catch{return null}}
