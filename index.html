@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#07090d">
 <meta name="description" content="StreamHub IPTV">
 <title>StreamHub IPTV</title>
+<link rel="preconnect" href="/api" crossorigin>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -28,22 +29,22 @@
 </header>
 
 <main id="homePage" class="page">
-<section class="hero">
-  <div class="hero-copy">
-    <div class="live-pill"><i></i> LIVE TV</div>
-    <h1>Watch your favorite<br><span>channels anywhere.</span></h1>
-    <p>Fast, clean and responsive IPTV player with HLS playback and HTTPS stream proxy support.</p>
-    <div class="hero-actions">
-      <a class="primary-btn" href="/channels" style="display:inline-flex;align-items:center;text-decoration:none">Browse channels <b>↓</b></a>
-      <button id="featuredBtn" class="ghost-btn" type="button">Featured <b>✦</b></button>
-    </div>
-  </div>
-  <div class="hero-art"><div class="glow"></div><div class="screen-card"><div class="screen-top"><span></span><span></span><span></span><em>LIVE</em></div><div class="screen-play">▶</div><div class="screen-lines"><i></i><i></i><i></i></div></div><div class="float-card fc-one">◉ <b>HD</b><small>Quality</small></div><div class="float-card fc-two">⚡ <b>Fast</b><small>Playback</small></div></div>
+<section class="home-status">
+  <div class="status-brand"><span class="status-dot"></span><span>LIVE</span></div>
+  <div class="status-count"><span class="tv-icon">▣</span><b id="homeCount">0</b> Channels</div>
 </section>
-<section class="content">
-  <div class="section-head"><div><div class="eyebrow">FEATURED</div><h2>Live channels</h2></div><div class="result-count" id="homeCount">0 shown</div></div>
-  <div class="category-row home-category-row" id="homeCategories"></div>
-  <div id="homeGrid" class="channel-grid" style="margin-top:24px"></div>
+<section class="content home-sections">
+  <section class="home-shelf home-activity" id="latestShelf">
+    <div class="section-head shelf-head"><div><div class="eyebrow">YOUR ACTIVITY</div><h2>Latest Watched</h2></div><a class="see-all" href="/channels">See all <span>→</span></a></div>
+    <div id="latestGrid" class="channel-row"></div>
+  </section>
+
+  <section class="home-shelf">
+    <div class="section-head shelf-head"><div><div class="eyebrow">TRENDING NOW</div><h2>Popular 🔥</h2></div><a class="see-all" href="/channels">See all <span>→</span></a></div>
+    <div id="popularGrid" class="channel-row"></div>
+  </section>
+
+  <div id="categoryShelves"></div>
 </section>
 </main>
 
