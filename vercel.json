@@ -1,14 +1,7 @@
 {
-  "rewrites":[
-    {"source":"/home","destination":"/index.html"},
-    {"source":"/channels","destination":"/index.html"},
-    {"source":"/play","destination":"/index.html"},
-    {"source":"/favorites","destination":"/index.html"},
-    {"source":"/settings","destination":"/index.html"},
-    {"source":"/admin","destination":"/index.html"}
-  ],
-  "headers":[
-    {"source":"/index.html","headers":[{"key":"Cache-Control","value":"public, max-age=60, stale-while-revalidate=300"}]},
-    {"source":"/(.*)\\.(js|css)","headers":[{"key":"Cache-Control","value":"public, max-age=3600, stale-while-revalidate=86400"}]}
+  "rewrites": [
+    { "source": "/home", "destination": "/index.html" },
+    { "source": "/channels", "destination": "/index.html" },
+    { "source": "/play", "destination": "/index.html" }
   ]
 }

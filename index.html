@@ -1,17 +1,49 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#07080b"><title>StreamHub TV</title><link rel="stylesheet" href="/style.css"></head><body>
-<header class="topbar"><a class="brand" href="/home"><span class="brand-mark">▶</span><b>Stream<span>Hub</span></b></a><nav><a class="nav-btn" href="/home">Home</a><a class="nav-btn" href="/channels">Live TV</a></nav><div class="search-wrap"><span>⌕</span><input id="searchInput" placeholder="Search channels"><button id="clearSearch">×</button></div><div class="actions"><button id="openFavorites">♥</button><button id="themeBtn">☀</button><button id="randomBtn">⤨</button><button id="openSettings">⚙</button></div></header>
-<main id="homePage" class="page"><section class="hero"><div class="hero-copy"><span class="eyebrow">LIVE TV</span><h1>Everything you watch.<br><span>In one place.</span></h1><p>Fast live channels, categories and TV-style navigation.</p><div class="hero-actions"><a class="primary-btn" href="/channels">Browse Channels</a><button class="secondary-btn" id="heroRandom">Play Random</button></div></div><div class="hero-art"><div class="hero-screen">LIVE</div></div></section>
-<section class="section category-section"><div class="section-title"><h2>Categories</h2><span class="hint">Swipe →</span></div><div id="homeCategories" class="category-strip"></div></section>
-<section class="section shelf"><div class="section-title"><h2>Continue Watching</h2><a href="/channels">See all →</a></div><div id="latestRow" class="rail"></div></section>
-<section class="section shelf"><div class="section-title"><h2>Recently Added</h2><a href="/channels">See all →</a></div><div id="recentRow" class="rail"></div></section>
-<section class="section shelf"><div class="section-title"><h2>Popular 🔥</h2><a href="/channels">See all →</a></div><div id="popularRow" class="rail"></div></section>
-<section class="section shelf"><div class="section-title"><h2>Trending Now</h2><a href="/channels">See all →</a></div><div id="trendingRow" class="rail"></div></section>
-<section class="section shelf"><div class="section-title"><h2>Recommended for You</h2><a href="/channels">See all →</a></div><div id="recommendedRow" class="rail"></div></section><div id="homeShelves"></div></main>
-<main id="channelsPage" class="page hidden"><section class="page-content"><div class="page-heading"><div><span class="eyebrow">LIVE TV</span><h1>All Channels</h1></div><span id="resultCount"></span></div><div class="filters"><select id="filter-category"></select><select id="filter-country"></select><select id="filter-language"></select><select id="filter-genre"></select></div><div id="sortRow" class="sort-row"><button data-sort="recommended" class="active">Recommended</button><button data-sort="popular">Popular</button><button data-sort="az">A–Z</button><button data-sort="category">Category</button></div><div id="channelGrid" class="channel-grid"></div></section></main>
-<main id="favoritesPage" class="page hidden"><section class="page-content"><div class="page-heading"><h1>Favorites ♥</h1></div><div id="favoriteGrid" class="channel-grid"></div></section></main>
-<main id="playPage" class="page hidden"><section class="play-content"><div class="play-back"><a href="/home">← Home</a><a href="/channels">Live TV</a></div><div class="player-card"><div class="video-shell" id="videoShell"><div id="loadingOverlay" class="loading-overlay"><div class="loader"></div><strong>Connecting…</strong><span id="loadingText">Starting live stream</span></div><video id="videoPlayer" controls playsinline preload="metadata"></video><iframe id="embedPlayer" title="Player" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe><div id="errorOverlay" class="error-overlay hidden"><div class="error-icon">!</div><h3>Stream unavailable</h3><p id="errorText"></p><button id="retryBtn" class="primary-btn">Try again</button></div></div><div class="player-toolbar"><button id="prevBtn">◀ Previous</button><select id="qualitySelect"><option>Auto</option></select><select id="audioSelect"><option value="0">Audio</option></select><button id="subtitleBtn">CC</button><select id="aspectSelect"><option value="16/9">16:9</option><option value="4/3">4:3</option><option value="21/9">21:9</option></select><select id="speedSelect"><option value="1">1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="2">2×</option></select><button id="nextBtn">Next ▶</button></div><div class="play-info"><img id="playLogo" alt=""><div class="play-main"><h1 id="playTitle">Channel</h1><div class="tags"><span id="playCountry">LIVE</span><span id="playCategory">—</span><span id="playType">HLS</span></div></div><button id="reportBtn" class="report-btn">⚑ Report Issue</button></div></div>
-<section class="section"><div class="section-title"><h2>TV Schedule / EPG</h2></div><div id="epgRow" class="epg-row"></div></section><section class="section related-section"><div class="section-title"><h2>Related</h2><span id="relatedCount"></span></div><div id="relatedRow" class="rail related-rail"></div></section></section></main>
-<main id="settingsPage" class="page hidden"><section class="page-content settings"><h1>Settings</h1><label><input id="autoPlay" type="checkbox"> Auto-play</label><label>Default quality <select id="qualityDefault"><option value="auto">Auto</option><option value="1080">1080p</option><option value="720">720p</option><option value="480">480p</option></select></label><label>Default category <select id="defaultCategory"><option>All</option></select></label><label>Theme <select id="themeSetting"><option value="dark">Dark</option><option value="light">Light</option></select></label><label><input id="controlSetting" type="checkbox"> Player controls</label><label>Language <select id="languageSetting"><option>English</option><option>Bangla</option></select></label><div class="settings-actions"><button id="saveSettings" class="primary-btn">Save Settings</button><button id="clearHistory">Clear History</button><button id="clearCache">Clear Cache</button></div><button id="openAdmin" class="secondary-btn">Admin Panel</button></section></main>
-<main id="adminPage" class="page hidden"><section class="page-content"><h1>Admin</h1><p class="muted">Local admin works without MongoDB. With MONGODB_URI + ADMIN_KEY, changes can be persisted server-side.</p><div class="admin-table-wrap"><table><thead><tr><th>No.</th><th>Name</th><th>Category</th><th>Action</th></tr></thead><tbody id="adminRows"></tbody></table></div></section></main>
-<footer>StreamHub TV • Android TV • Vercel</footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.13.0/sql-wasm.js"></script><script src="https://cdn.jsdelivr.net/npm/hls.js@1.6.2/dist/hls.min.js"></script><script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script><script src="/db.js"></script><script src="/channels.js"></script><script src="/app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07080b">
+<title>StreamHub TV</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div id="app">
+<header class="topbar">
+  <a class="brand" href="/home" aria-label="Home"><span class="brand-mark">▶</span><b>Stream<span>Hub</span></b></a>
+  <nav class="nav"><a href="/home" class="nav-btn">Home</a><a href="/channels" class="nav-btn">Channels</a></nav>
+  <div class="search-wrap"><span>⌕</span><input id="searchInput" type="search" placeholder="Search channels"><button id="clearSearch" type="button">×</button></div>
+  <div class="actions"><button id="themeBtn" class="icon-btn" type="button">☾</button><button id="randomBtn" class="icon-btn" type="button">⤨</button></div>
+</header>
+
+<main id="homePage" class="page">
+  <section class="home-top"><div><div class="eyebrow">LIVE TV</div><h1>Watch Live Channels</h1><p>Choose a category, slide through channels, and press OK to play.</p></div><div class="channel-total"><span>▣</span><b id="homeCount">0</b><small>Channels</small></div></section>
+  <section class="section category-section"><div class="section-title"><h2>Categories</h2></div><div id="homeCategories" class="category-strip"></div></section>
+  <section class="section shelf" id="latestShelf"><div class="section-title"><h2>Latest Watched</h2><a href="/channels">See all →</a></div><div id="latestRow" class="rail"></div></section>
+  <section class="section shelf"><div class="section-title"><h2>Popular</h2><a href="/channels">See all →</a></div><div id="popularRow" class="rail"></div></section>
+  <div id="homeShelves"></div>
+</main>
+
+<main id="channelsPage" class="page hidden"><section class="page-content"><div class="page-heading"><div><div class="eyebrow">CHANNELS</div><h1>All Channels</h1></div><span id="resultCount"></span></div><div id="categoryRow" class="category-strip"></div><div class="sort-row"><button class="sort-btn active" data-sort="default">Recommended</button><button class="sort-btn" data-sort="az">A–Z</button><button class="sort-btn" data-sort="category">Category</button></div><div id="channelGrid" class="channel-grid"></div></section></main>
+
+<main id="playPage" class="page hidden"><section class="play-content">
+  <div class="play-back"><a href="/home">← Home</a><a href="/channels">Channels</a></div>
+  <div class="player-card">
+    <div class="video-shell" id="videoShell">
+      <div id="loadingOverlay" class="loading-overlay"><div class="loader"></div><strong>Connecting…</strong><span>Starting live stream</span></div>
+      <video id="videoPlayer" controls playsinline preload="metadata"></video>
+      <iframe id="embedPlayer" title="Player" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>
+      <div id="errorOverlay" class="error-overlay hidden"><div class="error-icon">!</div><h3>Stream unavailable</h3><p id="errorText"></p><button id="retryBtn" class="primary-btn">Try again</button></div>
+    </div>
+    <div class="play-info"><img id="playLogo" alt=""><div class="play-main"><h1 id="playTitle">Channel</h1><div class="tags"><span id="playCountry">LIVE</span><span id="playCategory">—</span><span id="playType">HLS</span></div></div><button id="reportBtn" class="report-btn" type="button">⚑ Report Issue</button></div>
+  </div>
+  <section class="related-section"><div class="section-title"><h2>Related</h2><span id="relatedCount"></span></div><div id="relatedRow" class="rail related-rail"></div></section>
+</section></main>
+<footer>StreamHub TV • Vercel Ready • Android TV Optimized</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.6.2/dist/hls.min.js"></script>
+<script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+<script src="/channels.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
