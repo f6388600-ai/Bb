@@ -9,9 +9,6 @@ window.DEFAULT_CHANNELS = [
     type: "hls"
   }
 
-  /*
-  Example:
-
   ,
   {
     id: "example-news",
