@@ -1,0 +1,7 @@
+{
+  "name": "streamhub-tv",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {"start":"node -e \"console.log('StreamHub TV is ready for Vercel')\""},
+  "dependencies": {"mongodb":"^6.20.0"}
+}
