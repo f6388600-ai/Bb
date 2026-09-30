@@ -2,8 +2,8 @@
   {
     "id": "bdtv27",
     "name": "BD TV 27",
-    "logo": "https://dummyimage.com/600x360/15161d/ffffff&text=BD+TV",
-    "stream": "http://livetv.akr4m.com:8080/bdtv/restrem/27.m3u8",
+    "logo": "https://s3.aynaott.com/storage/c355110e9cbebd89649a95f0f0fd77da",
+    "stream": "https://server.thelegitpro.in/rongeentv/rongeentv/index.m3u8",
     "country": "Bangladesh",
     "language": "Bangla",
     "category": "Bangladeshi Live TV",
