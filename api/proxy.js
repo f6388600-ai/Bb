@@ -95,7 +95,8 @@ module.exports = async (req, res) => {
     const type = upstream.headers.get("content-type") || "application/octet-stream";
     res.status(upstream.status);
     res.setHeader("Content-Type", contentTypeLooksLikeManifest(type, target.href) ? "application/vnd.apple.mpegurl; charset=utf-8" : type);
-    res.setHeader("Cache-Control", "no-store, max-age=0");
+    const isManifest = contentTypeLooksLikeManifest(type, target.href);
+    res.setHeader("Cache-Control", isManifest ? "no-store, max-age=0" : "public, max-age=2, s-maxage=2");
 
     for (const name of ["content-length", "content-range", "accept-ranges", "etag", "last-modified"]) {
       const value = upstream.headers.get(name);
@@ -111,17 +112,19 @@ module.exports = async (req, res) => {
 
     if (!upstream.body) return res.end();
 
+    // Stream media segments immediately instead of buffering the whole segment.
+    // Buffering here was the main reason playback felt slow on Vercel.
     const reader = upstream.body.getReader();
-    const chunks = [];
-    let total = 0;
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      chunks.push(value);
-      total += value.byteLength;
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        res.write(Buffer.from(value));
+      }
+      return res.end();
+    } finally {
+      try { reader.releaseLock(); } catch {}
     }
-    const buffer = Buffer.concat(chunks.map((chunk) => Buffer.from(chunk)), total);
-    return res.send(buffer);
   } catch (error) {
     console.error("Proxy error:", error);
     return res.status(502).json({ error: "Upstream stream could not be reached" });
