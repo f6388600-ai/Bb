@@ -84,3 +84,42 @@ footer{padding:35px 20px 50px;text-align:center;color:var(--muted);font-size:11p
 .player-foot{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--border)}.now-info{display:flex;gap:8px;color:var(--muted);font-size:10px}.toast{position:fixed;left:50%;bottom:25px;z-index:200;transform:translate(-50%,20px);background:#171c25;color:#fff;border:1px solid rgba(255,255,255,.12);padding:11px 15px;border-radius:11px;font-size:12px;opacity:0;pointer-events:none;transition:.25s;box-shadow:var(--shadow)}.toast.show{opacity:1;transform:translate(-50%,0)}
 @media(max-width:850px){.topbar{gap:10px}.brand{font-size:17px}.search-wrap{order:3;flex-basis:100%;max-width:none}.topbar{height:auto;padding:12px 15px;flex-wrap:wrap}.header-actions{margin-left:auto}.hero{padding:50px 20px;min-height:auto}.hero-art{display:none}.hero h1{letter-spacing:-2.5px}.content{padding:42px 15px}.channel-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.logo-box{height:110px}.logo-box img{width:62px;height:62px}.logo-fallback{width:62px;height:62px;font-size:28px}.section-head{align-items:start}.result-count{padding-top:8px}}
 @media(max-width:460px){.hero p{font-size:14px}.hero-actions{width:100%}.hero-actions button{flex:1}.toolbar{align-items:start;flex-direction:column}.toolbar-left{width:100%}.sort-btn{flex:1}.compact-btn{align-self:flex-end}.player-modal{border-radius:15px}.player-head{padding:13px}.player-foot{padding:10px 12px}.channel-name{font-size:12px}}
+
+.home-shelf{margin-top:42px}.shelf-head{margin-bottom:16px}.shelf-head h2{font-size:22px}.empty-shelf{border:1px dashed var(--line);border-radius:16px;padding:28px;color:var(--muted);text-align:center;background:var(--panel)}
+@media(max-width:700px){.home-shelf{margin-top:30px}.shelf-head h2{font-size:19px}}
+
+
+
+.home-status{max-width:1400px;margin:26px auto 0;padding:0 clamp(18px,5vw,70px);display:flex;align-items:center;justify-content:space-between}
+.status-brand,.status-count{height:48px;border:1px solid var(--border);background:linear-gradient(110deg,rgba(255,54,87,.11),var(--surface));border-radius:999px;display:flex;align-items:center;gap:9px;padding:0 18px;font-size:12px;font-weight:800}
+.status-brand{color:#ff7188}.status-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);animation:pulse 1.5s infinite}.status-count{color:var(--muted)}.status-count b{color:var(--accent);font-size:14px}.tv-icon{color:var(--accent);font-size:17px}
+@media(max-width:700px){.home-status{margin-top:14px;padding:0 15px}.status-brand,.status-count{height:44px;padding:0 13px;font-size:11px}.status-count b{font-size:13px}}
+
+/* Home TV-style horizontal category shelves */
+.home-sections{padding-top:34px}
+.home-shelf{margin-top:38px}
+.home-shelf:first-child{margin-top:0}
+.shelf-head{margin-bottom:15px}
+.shelf-head h2{font-size:25px;letter-spacing:-1px}
+.see-all{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font-size:12px;font-weight:800;text-decoration:none;white-space:nowrap}
+.see-all span{color:var(--accent);font-size:16px;transition:transform .2s}
+.see-all:hover{color:var(--text)}
+.see-all:hover span{transform:translateX(3px)}
+.channel-row{display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;padding:2px 2px 12px;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.channel-row::-webkit-scrollbar{display:none}
+.channel-row .channel-card{flex:0 0 205px;width:205px;scroll-snap-align:start}
+.channel-row .channel-card:hover{transform:translateY(-3px)}
+.empty-shelf{flex:0 0 100%;border:1px dashed var(--border);border-radius:16px;padding:25px;color:var(--muted);text-align:center;background:var(--surface)}
+.category-shelf{padding-top:3px}
+.category-shelf + .category-shelf{margin-top:42px}
+@media(max-width:700px){
+  .home-sections{padding-top:22px}
+  .home-shelf{margin-top:30px}
+  .shelf-head h2{font-size:20px}
+  .channel-row{gap:10px;padding-bottom:9px}
+  .channel-row .channel-card{flex-basis:205px;width:205px}
+}
+@media(max-width:390px){
+  .channel-row .channel-card{flex-basis:188px;width:188px}
+  .channel-row .logo-box{height:112px}
+}
